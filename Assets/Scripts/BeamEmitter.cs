@@ -7,6 +7,9 @@ public class BeamEmitter : MonoBehaviour
     [Header("Beam Settings")]
     [SerializeField] private BeamSettings beamSettings;
 
+    [Header("References")]
+    [SerializeField] private Transform emissionPoint;
+
     private LineRenderer lineRenderer;
     private Material beamMaterialInstance;
     private readonly List<Vector3> beamPoints = new();
@@ -31,12 +34,18 @@ public class BeamEmitter : MonoBehaviour
 
     private void CastBeam()
     {
+        if (emissionPoint == null)
+        {
+            Debug.LogWarning("BeamEmitter is missing an Emission Point reference.", this);
+            return;
+        }
+
         beamPoints.Clear();
-        beamPoints.Add(transform.position);
+        beamPoints.Add(emissionPoint.position);
 
         BeamUtility.TraceBeam(
-            transform.position,
-            transform.forward,
+            emissionPoint.position,
+            emissionPoint.forward,
             beamSettings.maxBeamDistance,
             beamSettings.maxReflections,
             beamSettings.hitLayers,
