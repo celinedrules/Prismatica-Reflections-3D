@@ -21,6 +21,19 @@ public struct BeamCastResult
 
 public static class BeamUtility
 {
+    public static void ConfigureLineRenderer(LineRenderer line, Color beamColor)
+    {
+        if (line == null)
+        {
+            return;
+        }
+
+        line.startColor = beamColor;
+        line.endColor = beamColor;
+        line.useWorldSpace = true;
+        line.textureMode = LineTextureMode.Stretch;
+    }
+    
     public static void TraceBeam(
         Vector3 origin,
         Vector3 direction,
@@ -77,5 +90,22 @@ public static class BeamUtility
         }
 
         points.Add(origin + direction * maxDistance);
+    }
+    
+    public static void UpdateBeamTiling(Material beamMaterialInstance, List<Vector3> beamPoints, float textureTiling)
+    {
+        if (beamMaterialInstance == null || beamPoints.Count < 2)
+        {
+            return;
+        }
+
+        float totalBeamLength = 0f;
+
+        for (int i = 0; i < beamPoints.Count - 1; i++)
+        {
+            totalBeamLength += Vector3.Distance(beamPoints[i], beamPoints[i + 1]);
+        }
+
+        beamMaterialInstance.SetFloat("_Tiling", totalBeamLength * textureTiling);
     }
 }

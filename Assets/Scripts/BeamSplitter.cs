@@ -5,27 +5,42 @@ public class BeamSplitter : MonoBehaviour
 {
     [Header("Beam Settings")]
     [SerializeField] private BeamSettings beamSettings;
-    [SerializeField, Range(0,1)] private float strengthReduction;
+    [SerializeField, Range(0, 1)] private float strengthReduction;
 
     [Header("Output References")] [SerializeField]
     private LineRenderer lineRendererA;
     [SerializeField]
     private LineRenderer lineRendererB;
 
-    // These transforms define the exit points and angles of the split beams
+    private Material beamMaterialInstanceA;
+    private Material beamMaterialInstanceB;
+
     public Transform splitDirectionA;
     public Transform splitDirectionB;
+    
+    private bool isHitThisFrame;
 
-    private bool isHitThisFrame = false;
+    private void Awake()
+    {
+        BeamUtility.ConfigureLineRenderer(lineRendererA, beamSettings.beamColor);
+        BeamUtility.ConfigureLineRenderer(lineRendererB, beamSettings.beamColor);
 
-    void Update()
+        beamMaterialInstanceA = lineRendererA.material;
+        beamMaterialInstanceB = lineRendererB.material;
+    }
+
+    private void Update()
     {
         if (isHitThisFrame)
         {
             lineRendererA.enabled = true;
             lineRendererB.enabled = true;
-            CastSplitBeam(splitDirectionA, lineRendererA);
-            CastSplitBeam(splitDirectionB, lineRendererB);
+
+            List<Vector3> pointsA = CastSplitBeam(splitDirectionA, lineRendererA);
+            List<Vector3> pointsB = CastSplitBeam(splitDirectionB, lineRendererB);
+
+            BeamUtility.UpdateBeamTiling(beamMaterialInstanceA, pointsA, beamSettings.textureTiling);
+            BeamUtility.UpdateBeamTiling(beamMaterialInstanceB, pointsB, beamSettings.textureTiling);
         }
         else
         {
@@ -33,7 +48,6 @@ public class BeamSplitter : MonoBehaviour
             lineRendererB.enabled = false;
         }
 
-        // Reset flag for the next frame
         isHitThisFrame = false;
     }
 
@@ -42,10 +56,9 @@ public class BeamSplitter : MonoBehaviour
         isHitThisFrame = true;
     }
 
-    private void CastSplitBeam(Transform exitPoint, LineRenderer line)
+    private List<Vector3> CastSplitBeam(Transform exitPoint, LineRenderer line)
     {
-        List<Vector3> points = new List<Vector3>();
-        points.Add(exitPoint.position);
+        List<Vector3> points = new() { exitPoint.position };
 
         float splitDistance = beamSettings.maxBeamDistance * (1f - strengthReduction);
 
@@ -60,5 +73,7 @@ public class BeamSplitter : MonoBehaviour
 
         line.positionCount = points.Count;
         line.SetPositions(points.ToArray());
+
+        return points;
     }
 }

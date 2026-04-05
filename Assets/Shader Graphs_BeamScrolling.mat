@@ -45,7 +45,7 @@ Material:
     - _EmissionIntensity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ScrollSpeed: -2
+    - _ScrollSpeed: -10
     - _Tiling: 1
     m_Colors:
     - _EmissionColor: {r: 0.4009434, g: 1, b: 0.87783945, a: 1}

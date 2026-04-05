@@ -1805,7 +1805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeamSplitter
   beamSettings: {fileID: 11400000, guid: d1ff0e3f76e8e18ce95485fe030b0472, type: 2}
-  strengthReduction: 0
+  strengthReduction: 0.5
   lineRendererA: {fileID: 533490773}
   lineRendererB: {fileID: 1509757601}
   splitDirectionA: {fileID: 2005196200}
