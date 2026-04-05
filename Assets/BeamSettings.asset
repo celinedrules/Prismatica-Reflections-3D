@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd11389364b45d6a5d66282e73254ca, type: 3}
+  m_Name: BeamSettings
+  m_EditorClassIdentifier: Assembly-CSharp::BeamSettings
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 448
+  reflectiveLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  maxBeamDistance: 100
+  maxReflections: 10
+  beamColor: {r: 1, g: 1, b: 1, a: 1}
+  textureTiling: 6

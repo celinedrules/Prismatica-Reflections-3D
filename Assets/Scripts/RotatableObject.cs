@@ -36,6 +36,6 @@ public class RotatableObject : MonoBehaviour
         
         // Integration Point: Trigger a subtle haptic or sound here 
         // to match the 'Celestial Ruin' aesthetic.
-        Debug.Log($"{gameObject.name} rotated to: {transform.eulerAngles.y}");
+        // Debug.Log($"{gameObject.name} rotated to: {transform.eulerAngles.y}");
     }
 }

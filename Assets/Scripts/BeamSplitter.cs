@@ -4,12 +4,11 @@ using System.Collections.Generic;
 public class BeamSplitter : MonoBehaviour
 {
     [Header("Beam Settings")]
-    public Color beamColor = Color.cyan;
-    public float maxBeamDistance = 50f;
+    [SerializeField] private BeamSettings beamSettings;
 
-    [Header("Output References")][SerializeField] 
+    [Header("Output References")] [SerializeField]
     private LineRenderer lineRendererA;
-    [SerializeField] 
+    [SerializeField]
     private LineRenderer lineRendererB;
 
     // These transforms define the exit points and angles of the split beams
@@ -47,27 +46,8 @@ public class BeamSplitter : MonoBehaviour
         List<Vector3> points = new List<Vector3>();
         points.Add(exitPoint.position);
 
-        Ray ray = new Ray(exitPoint.position, exitPoint.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, maxBeamDistance))
-        {
-            points.Add(hit.point);
-            
-            // Integration: If we hit another splitter, notify it
-            BeamSplitter otherSplitter = hit.collider.GetComponent<BeamSplitter>();
-            if (otherSplitter != null)
-            {
-                otherSplitter.NotifyHit();
-            }
-            
-            // Logic for hitting ReflectiveLayer objects can be handled here 
-            // by calling the ReflectBeam() logic established in previous steps.
-        }
-        else
-        {
-            points.Add(exitPoint.position + (exitPoint.forward * maxBeamDistance));
-        }
+        BeamUtility.CastBeamSegment(exitPoint.position, exitPoint.forward, beamSettings.maxBeamDistance,
+            beamSettings.hitLayers, beamSettings.reflectiveLayer, points);
 
         line.positionCount = points.Count;
         line.SetPositions(points.ToArray());
