@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class LightReceptor : MonoBehaviour
 {
+    public event Action<LightReceptor, bool> ActivationChanged;
+    
     [Header("State")]
     public bool isActivated = false;
 
@@ -51,6 +54,7 @@ public class LightReceptor : MonoBehaviour
         }
 
         Debug.Log($"{gameObject.name} Activated!");
+        ActivationChanged?.Invoke(this, true);
     }
 
     private void DeactivateReceptor()
@@ -66,5 +70,8 @@ public class LightReceptor : MonoBehaviour
         {
             activationEffect.SetActive(false);
         }
+        
+        Debug.Log($"{gameObject.name} Deactivated!");
+        ActivationChanged?.Invoke(this, false);
     }
 }

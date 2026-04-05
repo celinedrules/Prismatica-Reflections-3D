@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &27693350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27693352}
+  - component: {fileID: 27693351}
+  m_Layer: 0
+  m_Name: PuzzleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &27693351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27693350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0102381ab66f49b892320daf81d0c518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
+  targetReceptors:
+  - {fileID: 777275431}
+  onLevelComplete:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &27693352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27693350}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &231044849
 Mesh:
   m_ObjectHideFlags: 0
@@ -724,7 +773,8 @@ GameObject:
   - component: {fileID: 777275429}
   - component: {fileID: 777275428}
   - component: {fileID: 777275427}
-  m_Layer: 8
+  - component: {fileID: 777275431}
+  m_Layer: 7
   m_Name: TargetCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,6 +874,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &777275431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777275426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b76e96aafb94ccab4e842a8c2aaed2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightReceptor
+  isActivated: 0
+  crystalRenderer: {fileID: 777275428}
+  inactiveMaterial: {fileID: 0}
+  activationMaterial: {fileID: 0}
+  activationEffect: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,16 +1005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5c61076ef2d1ed6a57469c02800a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeamEmitter
-  maxBeamDistance: 100
-  maxReflections: 10
-  beamColor: {r: 1, g: 1, b: 1, a: 1}
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 448
-  reflectiveLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  textureTiling: 4
+  beamSettings: {fileID: 11400000, guid: d1ff0e3f76e8e18ce95485fe030b0472, type: 2}
 --- !u!120 &1203767941
 LineRenderer:
   serializedVersion: 3
@@ -1175,7 +1233,7 @@ MonoBehaviour:
   rotationStep: 45
   rotatingPart: {fileID: 1203767945}
   minYAngle: 0
-  maxYAngle: 360
+  maxYAngle: 315
 --- !u!1 &1386348737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,8 +1644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea65d833668cb595b60f068f555bc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeamSplitter
-  beamColor: {r: 0, g: 1, b: 1, a: 1}
-  maxBeamDistance: 50
+  beamSettings: {fileID: 11400000, guid: d1ff0e3f76e8e18ce95485fe030b0472, type: 2}
+  strengthReduction: 0
   lineRendererA: {fileID: 533490773}
   lineRendererB: {fileID: 1509757601}
   splitDirectionA: {fileID: 2005196200}
@@ -2192,3 +2250,4 @@ SceneRoots:
   - {fileID: 1503239651}
   - {fileID: 1919537889}
   - {fileID: 1814387296}
+  - {fileID: 27693352}

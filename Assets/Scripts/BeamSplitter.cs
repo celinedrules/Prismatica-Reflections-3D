@@ -5,6 +5,7 @@ public class BeamSplitter : MonoBehaviour
 {
     [Header("Beam Settings")]
     [SerializeField] private BeamSettings beamSettings;
+    [SerializeField, Range(0,1)] private float strengthReduction;
 
     [Header("Output References")] [SerializeField]
     private LineRenderer lineRendererA;
@@ -46,8 +47,15 @@ public class BeamSplitter : MonoBehaviour
         List<Vector3> points = new List<Vector3>();
         points.Add(exitPoint.position);
 
-        BeamUtility.CastBeamSegment(exitPoint.position, exitPoint.forward, beamSettings.maxBeamDistance,
-            beamSettings.hitLayers, beamSettings.reflectiveLayer, points);
+        float splitDistance = beamSettings.maxBeamDistance * (1f - strengthReduction);
+
+        BeamUtility.CastBeamSegment(
+            exitPoint.position,
+            exitPoint.forward,
+            splitDistance,
+            beamSettings.hitLayers,
+            beamSettings.reflectiveLayer,
+            points);
 
         line.positionCount = points.Count;
         line.SetPositions(points.ToArray());
