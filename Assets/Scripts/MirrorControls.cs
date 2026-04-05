@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class MirrorControl : MonoBehaviour
+public class RotatableObject : MonoBehaviour
 {
     [Header("Rotation Settings")]
-    [Tooltip("How many degrees the mirror rotates per click.")]
+    [Tooltip("How many degrees the objest rotates per click.")]
     public float rotationStep = 45f;
 
     // targetRotation stores the logical angle we want to reach
@@ -17,14 +17,14 @@ public class MirrorControl : MonoBehaviour
 
     /// <summary>
     /// Unity callback for mouse/touch input. 
-    /// Requires a Collider on the Mirror object.
+    /// Requires a Collider on the GameObject.
     /// </summary>
     void OnMouseDown()
     {
-        RotateMirror();
+        RotateObject();
     }
 
-    void RotateMirror()
+    void RotateObject()
     {
         // Increment the Y-axis rotation by our fixed step
         targetRotation.y += rotationStep;
@@ -36,6 +36,6 @@ public class MirrorControl : MonoBehaviour
         
         // Integration Point: Trigger a subtle haptic or sound here 
         // to match the 'Celestial Ruin' aesthetic.
-        Debug.Log($"Mirror rotated to: {transform.eulerAngles.y}");
+        Debug.Log($"{gameObject.name} rotated to: {transform.eulerAngles.y}");
     }
 }
