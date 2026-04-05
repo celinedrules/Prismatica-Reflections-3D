@@ -45,7 +45,7 @@ public class BeamEmitter : MonoBehaviour
         beamPoints.Clear();
         beamPoints.Add(transform.position);
 
-        ReflectBeam(transform.position, transform.forward, 0);
+        TraceBeam();
 
         lineRenderer.positionCount = beamPoints.Count;
         lineRenderer.SetPositions(beamPoints.ToArray());
@@ -53,32 +53,22 @@ public class BeamEmitter : MonoBehaviour
         UpdateBeamTiling();
     }
 
-    /// <summary>
-    /// Casts the beam forward and recursively reflects it from reflective surfaces.
-    /// </summary>
-    /// <param name="origin">Starting point of this beam segment.</param>
-    /// <param name="direction">Direction of this beam segment.</param>
-    /// <param name="reflectionCount">Current reflection depth.</param>
-    private void ReflectBeam(Vector3 origin, Vector3 direction, int reflectionCount)
+    private void TraceBeam()
     {
-        if (reflectionCount >= beamSettings.maxReflections)
-        {
-            beamPoints.Add(origin + direction * beamSettings.maxBeamDistance);
-            return;
-        }
+        beamPoints.Clear();
+        beamPoints.Add(transform.position);
 
-        BeamCastResult result = BeamUtility.CastBeamSegment(
-            origin,
-            direction,
+        BeamUtility.TraceBeam(
+            transform.position,
+            transform.forward,
             beamSettings.maxBeamDistance,
+            beamSettings.maxReflections,
             beamSettings.hitLayers,
             beamSettings.reflectiveLayer,
             beamPoints);
 
-        if (result.hitType == BeamHitType.ReflectiveSurface)
-        {
-            ReflectBeam(result.nextOrigin, result.nextDirection, reflectionCount + 1);
-        }
+        lineRenderer.positionCount = beamPoints.Count;
+        lineRenderer.SetPositions(beamPoints.ToArray());
     } 
 
     /// <summary>

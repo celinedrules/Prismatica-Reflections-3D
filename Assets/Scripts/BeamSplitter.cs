@@ -49,10 +49,11 @@ public class BeamSplitter : MonoBehaviour
 
         float splitDistance = beamSettings.maxBeamDistance * (1f - strengthReduction);
 
-        BeamUtility.CastBeamSegment(
+        BeamUtility.TraceBeam(
             exitPoint.position,
             exitPoint.forward,
             splitDistance,
+            beamSettings.maxReflections,
             beamSettings.hitLayers,
             beamSettings.reflectiveLayer,
             points);

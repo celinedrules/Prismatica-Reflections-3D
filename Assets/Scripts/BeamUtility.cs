@@ -21,58 +21,61 @@ public struct BeamCastResult
 
 public static class BeamUtility
 {
-    public static BeamCastResult CastBeamSegment(
+    public static void TraceBeam(
         Vector3 origin,
         Vector3 direction,
         float maxDistance,
+        int maxReflections,
         LayerMask hitLayers,
         LayerMask reflectiveLayer,
         List<Vector3> points,
-        float surfaceOffset = 0.01f)
+        int reflectionCount = 0)
     {
-        BeamCastResult result = new BeamCastResult();
+        if (reflectionCount >= maxReflections)
+        {
+            points.Add(origin + direction * maxDistance);
+            return;
+        }
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, maxDistance, hitLayers))
         {
             points.Add(hit.point);
-            result.endPoint = hit.point;
 
             LightReceptor receptor = hit.collider.GetComponent<LightReceptor>();
             if (receptor != null)
             {
                 receptor.OnBeamHit();
-                result.hitType = BeamHitType.Receptor;
-                return result;
+                return;
             }
 
             BeamSplitter splitter = hit.collider.GetComponent<BeamSplitter>();
             if (splitter != null)
             {
                 splitter.NotifyHit();
-                result.hitType = BeamHitType.Splitter;
-                result.splitter = splitter;
-                return result;
+                return;
             }
 
             if (((1 << hit.collider.gameObject.layer) & reflectiveLayer.value) != 0)
             {
                 Vector3 reflectedDirection = Vector3.Reflect(direction, hit.normal).normalized;
+                Vector3 nextOrigin = hit.point + reflectedDirection * 0.01f;
 
-                result.hitType = BeamHitType.ReflectiveSurface;
-                result.nextDirection = reflectedDirection;
-                result.nextOrigin = hit.point + (reflectedDirection * surfaceOffset);
-                return result;
+                TraceBeam(
+                    nextOrigin,
+                    reflectedDirection,
+                    maxDistance,
+                    maxReflections,
+                    hitLayers,
+                    reflectiveLayer,
+                    points,
+                    reflectionCount + 1);
+
+                return;
             }
 
-            result.hitType = BeamHitType.Blocked;
-            return result;
+            return;
         }
 
-        Vector3 endPoint = origin + direction * maxDistance;
-        points.Add(endPoint);
-
-        result.hitType = BeamHitType.None;
-        result.endPoint = endPoint;
-        return result;
+        points.Add(origin + direction * maxDistance);
     }
 }
