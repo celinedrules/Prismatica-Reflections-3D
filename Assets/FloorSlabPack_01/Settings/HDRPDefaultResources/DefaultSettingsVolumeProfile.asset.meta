@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 14b392ee213d25a48b1feddbd9f5a9be
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 244219
+  packageName: Floor Slab Pack 01
+  packageVersion: 1.0.0
+  assetPath: Assets/FloorSlabPack_01/Settings/HDRPDefaultResources/DefaultSettingsVolumeProfile.asset
+  uploadId: 555650
